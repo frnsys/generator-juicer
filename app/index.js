@@ -86,7 +86,7 @@ JuicerGenerator.prototype.stylesheets = function stylesheets() {
 };
 
 // Get latest stable Wordpress
-JuiceGenerator.prototype.wordpress = function wordpress() {
+JuicerGenerator.prototype.wordpress = function wordpress() {
     var cb = this.async(),
         self = this;
 
