@@ -4,13 +4,18 @@ var util   = require('util'),
     fs     = require('fs'),
     rimraf = require('rimraf'),
     yeoman = require('yeoman-generator'),
-    exec   = require('child_process').exec;
+    exec   = require('child_process').exec,
+    wp_dir = 'engine',
+    themes = wp_dir + '/wp-content/themes/',
+    theme  = themes + 'theme';
 
 
 var JuicerGenerator = module.exports = function JuicerGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
 
   this.on('end', function () {
+    // Change to the theme's directory.
+    process.chdir(theme);
     this.installDependencies({ skipInstall: options['skip-install'] });
   });
 
@@ -39,54 +44,6 @@ JuicerGenerator.prototype.askFor = function askFor() {
   }.bind(this));
 };
 
-JuicerGenerator.prototype.app = function app() {
-  this.copy('_package.json', 'package.json');
-  this.copy('_bower.json', 'bower.json');
-  this.copy('index.jade', 'index.jade');
-  this.copy('404.jade', '404.jade');
-  this.copy('favicon.ico', 'favicon.ico');
-
-  this.directory('inc', 'inc');
-  this.directory('assets', 'assets');
-  this.directory('src', 'src');
-  this.directory('js', 'js');
-};
-
-JuicerGenerator.prototype.projectfiles = function projectfiles() {
-  this.copy('gitignore', '.gitignore');
-  this.copy('bowerrc', '.bowerrc');
-  this.copy('csslintrc', '.csslintrc');
-  this.copy('jshintrc', '.jshintrc');
-  this.copy('Gruntfile.js', 'Gruntfile.js');
-};
-
-JuicerGenerator.prototype.h5bp = function h5bp() {
-  var cb = this.async();
-
-  this.remote('h5bp', 'html5-boilerplate', function(err, remote) {
-      if (err) {
-          return cb(err);
-      }
-      remote.copy('.htaccess', '.htaccess');
-      remote.copy('crossdomain.xml', 'crossdomain.xml');
-      remote.copy('humans.txt', 'humans.txt');
-      remote.copy('robots.txt', 'robots.txt');
-      cb();
-  });
-};
-
-JuicerGenerator.prototype.stylesheets = function stylesheets() {
-    var cb = this.async();
-
-    this.remote('ftzeng', 'atomic', function(err, remote) {
-        if (err) {
-            return cb(err);
-        }
-        remote.directory('.', 'css/');
-        cb();
-    });
-};
-
 // Get latest stable Wordpress
 JuicerGenerator.prototype.wordpress = function wordpress() {
     var cb = this.async(),
@@ -113,7 +70,7 @@ JuicerGenerator.prototype.wordpress = function wordpress() {
             }
           }
           self.remote('wordpress', 'wordpress', self.latestVersion, function(err, remote) {
-              remote.bulkDirectory('.', 'engine');
+              remote.bulkDirectory('.', wp_dir);
 
               cb();
           });
@@ -130,10 +87,10 @@ JuicerGenerator.prototype.purge_themes = function purge_themes() {
 
     // Clean up themes.
     // From: https://github.com/romainberger/yeoman-wordpress (with modifications)
-    fs.readdir('engine/wp-content/themes', function(err, files) {
+    fs.readdir(themes, function(err, files) {
         if (typeof files != 'undefined' && files.length !== 0) {
             files.forEach(function(file) {
-                var pathFile = fs.realpathSync('engine/wp-content/themes/'+file)
+                var pathFile = fs.realpathSync(themes+file)
                   , isDirectory = fs.statSync(pathFile).isDirectory();
 
                 if (isDirectory) {
@@ -145,6 +102,39 @@ JuicerGenerator.prototype.purge_themes = function purge_themes() {
     });
 
     cb();
+};
+
+
+
+JuicerGenerator.prototype.app = function app() {
+  this.directory('theme', theme);
+};
+
+JuicerGenerator.prototype.h5bp = function h5bp() {
+  var cb = this.async();
+
+  this.remote('h5bp', 'html5-boilerplate', function(err, remote) {
+      if (err) {
+          return cb(err);
+      }
+      remote.copy('.htaccess', '.htaccess');
+      remote.copy('crossdomain.xml', 'crossdomain.xml');
+      remote.copy('humans.txt', 'humans.txt');
+      remote.copy('robots.txt', 'robots.txt');
+      cb();
+  });
+};
+
+JuicerGenerator.prototype.stylesheets = function stylesheets() {
+    var cb = this.async();
+
+    this.remote('ftzeng', 'atomic', function(err, remote) {
+        if (err) {
+            return cb(err);
+        }
+        remote.directory('.', theme+'/css/');
+        cb();
+    });
 };
 
 var juicer =
