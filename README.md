@@ -11,8 +11,8 @@ A generator for Yeoman.
         port 8989)
 
 ## About
-Juicer is a boilerplate for simple static sites that may have some
-additional fanciness such as canvas or other interactive components.
+Juicer is a boilerplate for Wordpress-driven sites such as portfolios or
+any sort of project that will require content management down the line.
 
 HTML markup is generated via [Jade](http://jade-lang.com/), CSS is
 handled with [Sass](http://sass-lang.com/), and JS is helped with
