@@ -1,8 +1,10 @@
 'use strict';
-var util = require('util'),
-    path = require('path'),
+var util   = require('util'),
+    path   = require('path'),
+    fs     = require('fs'),
+    rimraf = require('rimraf'),
     yeoman = require('yeoman-generator'),
-    exec = require('child_process').exec;
+    exec   = require('child_process').exec;
 
 
 var JuicerGenerator = module.exports = function JuicerGenerator(args, options, config) {
@@ -90,7 +92,7 @@ JuicerGenerator.prototype.wordpress = function wordpress() {
     var cb = this.async(),
         self = this;
 
-    // From: https://github.com/romainberger/yeoman-wordpress
+    // From: https://github.com/romainberger/yeoman-wordpress (with modifications)
     try {
         var version = exec('git ls-remote --tags git://github.com/WordPress/WordPress.git', function(err, stdout, stderr) {
           if (err !== null) {
@@ -101,23 +103,48 @@ JuicerGenerator.prototype.wordpress = function wordpress() {
               , match = stdout.match(pattern)
               , patternShort = /^\d\.\d$/
               , latestVersion = match[match.length - 1]
-              , semverLatestString = latestVersion
-              , semverVersionString = self.latestVersion;
+              , semverLatestString = latestVersion;
 
             if (semverLatestString.match(patternShort)) semverLatestString += '.0';
-            if (semverVersionString.match(patternShort)) semverVersionString += '.0';
 
             if (semverLatestString !== null && typeof semverLatestString !== 'undefined') {
               self.latestVersion = latestVersion;
               self.log.writeln('Latest version: '+self.latestVersion);
             }
           }
-          this.tarball('https://github.com/WordPress/WordPress/tarball/'+self.latestVersion, 'app', cb);
+          self.remote('wordpress', 'wordpress', self.latestVersion, function(err, remote) {
+              remote.bulkDirectory('.', 'engine');
+
+              cb();
+          });
         });
       }
     catch(e) {
         cb();
     }
+};
+
+JuicerGenerator.prototype.purge_themes = function purge_themes() {
+    var cb = this.async(),
+        self = this;
+
+    // Clean up themes.
+    // From: https://github.com/romainberger/yeoman-wordpress (with modifications)
+    fs.readdir('engine/wp-content/themes', function(err, files) {
+        if (typeof files != 'undefined' && files.length !== 0) {
+            files.forEach(function(file) {
+                var pathFile = fs.realpathSync('engine/wp-content/themes/'+file)
+                  , isDirectory = fs.statSync(pathFile).isDirectory();
+
+                if (isDirectory) {
+                    rimraf.sync(pathFile);
+                    self.log.writeln('Removing ' + pathFile);
+                }
+            });
+        }
+    });
+
+    cb();
 };
 
 var juicer =
