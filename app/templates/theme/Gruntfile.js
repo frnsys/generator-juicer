@@ -59,7 +59,7 @@ module.exports = function(grunt) {
                         '!node_modules/**/*.jade'
                     ],
                     dest: '.',
-                    ext: '.html'
+                    ext: '.php'
                 }]
             }
         },
