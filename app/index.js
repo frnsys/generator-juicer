@@ -130,6 +130,7 @@ JuicerGenerator.prototype.purge_themes = function purge_themes() {
 JuicerGenerator.prototype.app = function app() {
   this.directory('theme', theme);
   this.copy('server.sh', 'server.sh');
+  this.copy('favicon.ico', 'favicon.ico');
 };
 
 // Copy over MAMP wp-config.php
