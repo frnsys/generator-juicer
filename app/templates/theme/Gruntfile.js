@@ -38,7 +38,7 @@ module.exports = function(grunt) {
         sass: {
             app: {
                 files: {
-                    'css/index.css': 'css/index.sass' 
+                    'style.css': 'css/index.sass' 
                 }
             }
         },
