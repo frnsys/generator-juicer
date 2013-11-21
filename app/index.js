@@ -56,7 +56,7 @@ JuicerGenerator.prototype.askFor = function askFor() {
   }];
 
   this.prompt(prompts, function (props) {
-    this.projectName = props.projectName;
+    this.projectName = props.projectName.toLowerCase().replace(' ', '_');
     this.mysqlUser = props.mysqlUser;
     this.mysqlPass = props.mysqlPass;
 
