@@ -58,7 +58,7 @@ module.exports = function(grunt) {
                         '!inc/**/*.jade',
                         '!node_modules/**/*.jade'
                     ],
-                    dest: '.',
+                    dest: '..',
                     ext: '.php'
                 }]
             }

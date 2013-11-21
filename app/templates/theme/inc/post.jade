@@ -1,0 +1,17 @@
+article
+    h1
+        a(href="<?php the_permalink(); ?>") <?php the_title(); ?>
+    .post--date <?php the_time('F j Y'); ?>
+    .post--author <?php the_author(); ?>
+
+    | <?php
+    | if (is_category() || is_archive() ) {
+    |   the_excerpt();
+    | } else {
+    |   if ($post->post_excerpt) { ?>
+
+    .post--excerpt <?php echo $post->post_excerpt; ?>
+
+    | <?php } ?>
+    .post--body <?php the_content(); ?>
+    | <?php } ?>

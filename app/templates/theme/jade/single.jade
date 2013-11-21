@@ -1,0 +1,11 @@
+include inc/head
+
+    | <?php while (have_posts() ) : the_post(); ?>
+    include inc/post
+    | <?php endwhile; ?>
+
+    nav.pages
+        .pages--prev <?php previous_post_link('%link', 'Previous Post'); ?>
+        .pages--next <?php next_post_link('%link', 'Next Post'); ?>
+
+    include inc/foot

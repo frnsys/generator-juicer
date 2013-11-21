@@ -1,8 +1,15 @@
 include inc/head
-    include inc/nav
 
     // Put more here!
     div(style="background-image:url('/assets/images/hullo.jpg');background-size:cover;background-position: center center;position:fixed;width:100%;height:100%;top:0;left:0;")
         h1(style="color:#fff;text-align:center;font-size:6em;text-shadow:2px 2px rgba(0,0,0,0.4);") juicer
+
+        | <?php if(have_posts()) : ?><?php while(have_posts()) : the_post(); ?>
+        include inc/post
+        | <?php endwhile; ?>
+
+        nav.pages <?php posts_nav_link(' ','<div class="prev">&laquo; Previous Page</div>', '<div class="next">Next Page &raquo;</div>'); ?>
+
+        | <?php endif; ?>
 
     include inc/foot

@@ -1,0 +1,12 @@
+include inc/head
+
+    | <?php if (have_posts()) : ?>
+    h1 Search results for: <?php echo get_search_query(); ?>
+    | <?php while (have_posts() ) : the_post(); ?>
+    include inc/post
+    | <?php endwhile; ?>
+    | <?php else : ?>
+    h1 No posts found.
+    | <?php endif; ?>
+
+    include inc/foot
