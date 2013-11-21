@@ -106,8 +106,15 @@ JuicerGenerator.prototype.purge_themes = function purge_themes() {
 
 
 
+// Copy over theme files
 JuicerGenerator.prototype.app = function app() {
   this.directory('theme', theme);
+};
+
+// Copy over MAMP wp-config.php
+JuicerGenerator.prototype.mamp_config = function mamp_config() {
+    this.copy('wp-config.php', wp_dir+'/wp-config.php');
+    rimraf.sync(wp_dir+'/wp-config-sample.php');
 };
 
 JuicerGenerator.prototype.h5bp = function h5bp() {
