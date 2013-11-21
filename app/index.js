@@ -17,6 +17,14 @@ var JuicerGenerator = module.exports = function JuicerGenerator(args, options, c
     // Change to the theme's directory.
     process.chdir(theme);
     this.installDependencies({ skipInstall: options['skip-install'] });
+
+    console.log('Creating mysql db...');
+
+    var pass = '';
+    if (this.mysqlPass.length > 0) {
+        pass = ' -p'+this.mysqlPass;
+    }
+    exec('echo "create database '+this.projectName+'" | mysql -uroot'+pass);
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -35,10 +43,22 @@ JuicerGenerator.prototype.askFor = function askFor() {
     name: 'projectName',
     message: 'What is your project\'s name?',
     default: 'Juicer'
+  },{
+      type: 'input',
+      name: 'mysqlUser',
+      message: 'What is your mysql user?',
+      default: 'root'
+  },{
+      type: 'input',
+      name: 'mysqlPass',
+      message: 'What is this mysql user\'s password?',
+      default: ''
   }];
 
   this.prompt(prompts, function (props) {
     this.projectName = props.projectName;
+    this.mysqlUser = props.mysqlUser;
+    this.mysqlPass = props.mysqlPass;
 
     cb();
   }.bind(this));
@@ -109,10 +129,11 @@ JuicerGenerator.prototype.purge_themes = function purge_themes() {
 // Copy over theme files
 JuicerGenerator.prototype.app = function app() {
   this.directory('theme', theme);
+  this.copy('server.sh', 'server.sh');
 };
 
 // Copy over MAMP wp-config.php
-JuicerGenerator.prototype.mamp_config = function mamp_config() {
+JuicerGenerator.prototype.wp_config = function wp_config() {
     this.copy('wp-config.php', wp_dir+'/wp-config.php');
     rimraf.sync(wp_dir+'/wp-config-sample.php');
 };
