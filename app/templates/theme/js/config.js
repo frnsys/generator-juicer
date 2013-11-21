@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: '/js',
+    baseUrl: '/engine/wp-content/themes/theme/js',
     paths: {
         jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min',
         modernizr: 'vendor/bower/modernizr/modernizr',
