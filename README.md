@@ -3,16 +3,21 @@
 A generator for Yeoman.
 
 ## Getting started
+- You need MySQL installed on your computer. On OSX, you can just do
+`brew install mysql` with [Homebrew](http://brew.sh/).
 - Make sure you have [yo](https://github.com/yeoman/yo) installed:
     `npm install -g yo`
 - Install the generator: `npm install -g generator-juicer`
 - Run: `yo juicer`
-- After it's generated, run `grunt` to start the local server (defaults to
-        port 8989)
+- After it's generated, run `./server.sh` to start the local PHP server (defaults to
+        port 4000)
 
 ## About
 Juicer is a boilerplate for Wordpress-driven sites such as portfolios or
 any sort of project that will require content management down the line.
+
+It will automatically download the latest stable Wordpress, setup the
+MySQL database, and provide a blank template theme.
 
 HTML markup is generated via [Jade](http://jade-lang.com/), CSS is
 handled with [Sass](http://sass-lang.com/), and JS is helped with
