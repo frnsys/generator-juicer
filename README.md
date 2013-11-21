@@ -9,8 +9,9 @@ A generator for Yeoman.
     `npm install -g yo`
 - Install the generator: `npm install -g generator-juicer`
 - Run: `yo juicer`
-- After it's generated, run `./server.sh` to start the local PHP server (defaults to
-        port 4000)
+- After it's generated, run `./server.sh` to start the local PHP server (defaults to port 4000), and run `grunt` in the `theme` directory.
+- Setup Wordpress at `/engine/wp-admin/install.php` and don't forget to
+toggle the blank theme when you login.
 
 ## About
 Juicer is a boilerplate for Wordpress-driven sites such as portfolios or
