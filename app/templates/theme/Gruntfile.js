@@ -52,13 +52,12 @@ module.exports = function(grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '.',
+                    cwd: 'jade',
                     src: [
                         '**/*.jade',
                         '!inc/**/*.jade',
-                        '!node_modules/**/*.jade'
                     ],
-                    dest: '..',
+                    dest: '.',
                     ext: '.php'
                 }]
             }
