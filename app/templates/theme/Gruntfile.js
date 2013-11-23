@@ -130,7 +130,7 @@ module.exports = function(grunt) {
                 dest: ['css/exts/_icons.scss'],
                 replacements: [{
                     from: /fontcustom_[^.]+/g,
-                    to: 'fonts/icons'
+                    to: 'css/fonts/icons'
                 }, {
                     from: 'fontcustom',
                     to: 'icons'
