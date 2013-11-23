@@ -131,6 +131,7 @@ JuicerGenerator.prototype.app = function app() {
   this.directory('theme', theme);
   this.copy('server.sh', 'server.sh');
   this.copy('favicon.ico', 'favicon.ico');
+  this.copy('index.php', 'index.php');
 };
 
 // Copy over MAMP wp-config.php
