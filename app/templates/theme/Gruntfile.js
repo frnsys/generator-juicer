@@ -137,6 +137,18 @@ module.exports = function(grunt) {
                 }]
             },
 
+            wordpress: {
+                src: ['header.php'],
+                dest: ['header.php'],
+                replacements: [{
+                    from: '</body>',
+                    to: ''
+                }, {
+                    from: '</html>',
+                    to: ''
+                }]
+            },
+
             // Replace for release.
             release: {
                 src: ['index.html'],
@@ -220,7 +232,7 @@ module.exports = function(grunt) {
 
     // Define grunt tasks
     // =======================================
-    grunt.registerTask('default', ['sass', 'jade', 'connect', 'watch']);
+    grunt.registerTask('default', ['sass', 'jade', 'replace:wordpress', 'connect', 'watch']);
     grunt.registerTask('fontcustom', ['shell:fontcustom', 'copy:fontcustom', 'replace:fontcustom']);
     grunt.registerTask('release', ['jshint', 'csslint', 'clean:release', 'replace:release', 'copy:release', 'cssmin', 'imagemin', 'requirejs', 'clean:cleanup']);
 
