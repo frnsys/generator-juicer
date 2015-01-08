@@ -130,6 +130,7 @@ JuicerGenerator.prototype.purge_themes = function purge_themes() {
 JuicerGenerator.prototype.app = function app() {
   this.directory('theme', theme);
   this.copy('server.sh', 'server.sh');
+  this.copy('setup_db.sh', 'setup_db.sh');
   this.copy('favicon.ico', 'favicon.ico');
   this.copy('index.php', 'index.php');
 };
