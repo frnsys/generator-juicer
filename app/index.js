@@ -135,7 +135,7 @@ JuicerGenerator.prototype.app = function app() {
   this.copy('index.php', 'index.php');
 };
 
-// Copy over MAMP wp-config.php
+// Copy over development wp-config.php
 JuicerGenerator.prototype.wp_config = function wp_config() {
     this.copy('wp-config.php', wp_dir+'/wp-config.php');
     rimraf.sync(wp_dir+'/wp-config-sample.php');
